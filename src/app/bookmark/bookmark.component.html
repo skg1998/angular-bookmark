@@ -1,0 +1,68 @@
+<ng-template #mymodal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Create Your BookMark</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+    <div class="modal-body input-group input-group-sm mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text" id="inputGroup-sizing-sm">Username</span>
+      </div>
+      <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+    </div>
+  <div class="modal-body input-group input-group-sm mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text" id="inputGroup-sizing-sm">BookMark URL</span>
+      </div>
+      <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+    </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Ok</button>
+  </div>
+</ng-template>
+
+
+<div class="container">
+  <div class="row text-center header form-group">
+    <div class="col-md-3">
+       <button class="btn btn-sm btn-outline-primary"  (click)="open(mymodal)">Create</button>
+    </div>
+    <div class="col-md-9">
+       <input type="text" class="form-control" placeholder="Search Here...." [(ngModel)]="term">
+    </div>
+  </div>
+
+    <div class="dndPlaceholder #placeholder">
+        <div class="row">
+        <div class="col-md-6"
+          [dndList]
+          [dndPlaceholder]="placeholder"
+          [dndModel]="simpleList[0]">
+          <div *ngFor="let item of simpleList[0]"
+            class="col-md-12"
+            [dndType]="'item'"
+            (dndMoved)="removeItem(item, simpleList[0])"
+            [dndDraggable]
+            [dndObject]="item">{{item.name}}</div>
+        </div>
+        <div class="col-md-6"
+          [dndList]
+          [dndModel]="simpleList[1]"
+          [dndPlaceholder]="placeholder">
+          <div *ngFor="let item of simpleList[1] | filter:term"
+            class="col-md-12"
+            [dndType]="'item'"
+            (dndMoved)="removeItem(item, simpleList[1])"
+            [dndDraggable]
+            [dndObject]="item">{{item.name}} 
+            <div class="our-button">
+              <button  class="btn btn-sm btn-outline-info  mr-2" (click)="onEdit()" >Edit</button>
+              <button class="btn btn-sm btn-outline-danger  mr-2" (click)="onDelete(bookmark.id)">Delete</button>
+              <button class="btn btn-sm btn-outline-warning">&#x2606;</button>
+            </div>
+          </div>
+        </div>
+        </div>
+      </div>
+</div>
