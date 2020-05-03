@@ -1,5 +1,5 @@
 .jumbotron{
-   padding: 2rem 1rem;
+   padding: 1rem 0.5rem;
 }
 
 .app-container {
@@ -16,5 +16,28 @@
  
 .main-content-container {
   width: 100%;
+}
+
+.container {
+    position: relative;
+    width: 100%;
+    flex: 1 0 auto;
+    margin: 0 auto;
+    text-align: left;
+}
+
+#content {
+    box-sizing: content-box;
+    margin: 0 auto;
+    padding: 15px;
+    width: 1264px;
+    background-color: #ffffff;
+}
+#content {
+    max-width: 1100px;
+    width: 100%;
+    background-color: #ffffff;
+    padding: 24px;
+    box-sizing: border-box;
 }
 
