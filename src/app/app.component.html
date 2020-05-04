@@ -13,13 +13,14 @@
                   (click)="addTab(selectAfterAdding.checked)">
             Add Label
           </button>
-          <mat-checkbox #selectAfterAdding> Select tab after adding </mat-checkbox>
+          <mat-checkbox #selectAfterAdding>  </mat-checkbox>
         </div>
 
           <mat-tab-group  class="mat-elevation-z8"   [selectedIndex]="selected.value" (selectedIndexChange)="selected.setValue($event)">
+            
             <mat-tab *ngFor="let tab of tabs; let index = index" [label]="tab">
               <div class="show-content m-3">
-              Contents for {{tab}} tab
+               {{tab}} Bookmarks
               <button mat-raised-button  class="example-delete-tab-button" [disabled]="tabs.length === 1" (click)="removeTab(index)">
                 Delete Label
               </button>
