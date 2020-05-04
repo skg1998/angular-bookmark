@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {NgbModal, ModalDismissReasons, NgbModalOptions} from '@ng-bootstrap/ng-bootstrap';
+import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-bookmark',
@@ -8,18 +9,22 @@ import {NgbModal, ModalDismissReasons, NgbModalOptions} from '@ng-bootstrap/ng-b
 })
 export class BookmarkComponent implements OnInit {
 
-  public simpleList = [
+  public allData = [
     [
-      { 'name': 'John' },
-      { 'name': 'Smith' },
-      { 'name': 'George' },
+      { 'name': 'youtube' },
+      { 'url': 'www.youtube.com' },
+      { 'date': 'George' },
     ],
     [
-      { 'name': 'Jennifer' },
-      { 'name': 'Laura' },
-      { 'name': 'Georgina' },
+      { 'name': 'Gmail' },
+      { 'url': 'www.gmail.com' },
+      { 'date': 'Georgina' },
     ]
   ];
+
+  drop(event: CdkDragDrop<string[]>) {
+    moveItemInArray(this.allData, event.previousIndex, event.currentIndex);
+  }
 
   
 
@@ -58,10 +63,6 @@ export class BookmarkComponent implements OnInit {
     };
 
   }
-  
-  public removeItem(item: any, list: any[]): void {
-    list.splice(list.indexOf(item), 1);
-  }
 
   //dialog end ***********************************
 
@@ -80,6 +81,10 @@ export class BookmarkComponent implements OnInit {
   //edit bookmark
   onEdit(){
 
-  }   
+  } 
 
+  //favorite Bookmark  
+  onFavourite(){
+    
+  }
 }

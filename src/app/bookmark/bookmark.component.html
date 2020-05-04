@@ -24,45 +24,22 @@
 
 
 <div class="container">
-  <div class="row text-center header form-group">
-    <div class="col-md-3">
-       <button class="btn btn-sm btn-outline-primary"  (click)="open(mymodal)">Create</button>
-    </div>
-    <div class="col-md-9">
-       <input type="text" class="form-control" placeholder="Search Here...." [(ngModel)]="term">
-    </div>
+    <div class="row text-center header form-group">
+      <div class="col-md-3">
+        <button class="btn btn-sm btn-outline-primary"  (click)="open(mymodal)">Create</button>
+      </div>
+      <div class="col-md-9">
+        <input type="text" class="form-control" placeholder="Search Here...." [(ngModel)]="term">
+      </div>
   </div>
 
-    <div class="dndPlaceholder #placeholder">
-        <div class="row">
-        <div class="col-md-6"
-          [dndList]
-          [dndPlaceholder]="placeholder"
-          [dndModel]="simpleList[0]">
-          <div *ngFor="let item of simpleList[0]"
-            class="col-md-12"
-            [dndType]="'item'"
-            (dndMoved)="removeItem(item, simpleList[0])"
-            [dndDraggable]
-            [dndObject]="item">{{item.name}}</div>
-        </div>
-        <div class="col-md-6"
-          [dndList]
-          [dndModel]="simpleList[1]"
-          [dndPlaceholder]="placeholder">
-          <div *ngFor="let item of simpleList[1] | filter:term"
-            class="col-md-12"
-            [dndType]="'item'"
-            (dndMoved)="removeItem(item, simpleList[1])"
-            [dndDraggable]
-            [dndObject]="item">{{item.name}} 
-            <div class="our-button">
-              <button  class="btn btn-sm btn-outline-info  mr-2" (click)="onEdit()" >Edit</button>
-              <button class="btn btn-sm btn-outline-danger  mr-2" (click)="onDelete(bookmark.id)">Delete</button>
-              <button class="btn btn-sm btn-outline-warning">&#x2606;</button>
-            </div>
-          </div>
-        </div>
+  <div cdkDropList class="card example-list" (cdkDropListDropped)="drop($event)">
+    <div class="card-body example-box" *ngFor="let data of allData[0] | filter:term" cdkDrag><a href="{{url}}">{{data}}</a>
+      <div class="our-button">
+                <button  class="btn btn-sm btn-outline-info  mr-2" (click)="onEdit()" >Edit</button>
+                <button class="btn btn-sm btn-outline-danger  mr-2" (click)="onDelete(bookmark.id)">Delete</button>
+                <button class="btn btn-sm btn-outline-warning" (click)="onFavourite()">&#x2606;</button>
         </div>
       </div>
+    </div>
 </div>

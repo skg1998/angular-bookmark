@@ -11,6 +11,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import {DragDropModule} from '@angular/cdk/drag-drop';
 
 import { AppComponent } from './app.component';
 import { BookmarkComponent } from './bookmark/bookmark.component';
@@ -20,7 +21,8 @@ import { BookmarkComponent } from './bookmark/bookmark.component';
   imports:      [ BrowserModule, FormsModule ,NgbModule ,Ng2SearchPipeModule,DndListModule ,ReactiveFormsModule,MatTabsModule,
   BrowserAnimationsModule,
   MatButtonModule ,
-  MatButtonToggleModule
+  MatButtonToggleModule,
+  DragDropModule
   ],
   declarations: [ AppComponent, BookmarkComponent ],
   bootstrap:    [ AppComponent ],
