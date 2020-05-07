@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
 import {NgbModal, ModalDismissReasons, NgbModalOptions} from '@ng-bootstrap/ng-bootstrap';
 import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
+import { StorageMap } from '@ngx-pwa/local-storage';
+import { MomentModule } from 'ngx-moment';
 
 @Component({
   selector: 'app-bookmark',
@@ -9,82 +11,125 @@ import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
 })
 export class BookmarkComponent implements OnInit {
 
-  public allData = [
-    [
-      { 'name': 'youtube' },
-      { 'url': 'www.youtube.com' },
-      { 'date': 'George' },
-    ],
-    [
-      { 'name': 'Gmail' },
-      { 'url': 'www.gmail.com' },
-      { 'date': 'Georgina' },
-    ]
-  ];
+  @Input() selectedFolder:string;
+  @ViewChild('mymodal') mymodalRef: ElementRef;
 
-  drop(event: CdkDragDrop<string[]>) {
-    moveItemInArray(this.allData, event.previousIndex, event.currentIndex);
-  }
-
-  
-
-  ngOnInit() {
-  }
-
+  bookmarkTabStore:any = [];
   title = 'ng-bootstrap-modal-demo';
   closeResult: string;
   modalOptions:NgbModalOptions;
- 
+  
+  bookmarkForm = {
+    bookmarkId: null,
+    label: "",
+    url: ""
+  }
+
+  public bookmarks: any = [];
+
   constructor(
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private store: StorageMap
   ){
+
     this.modalOptions = {
       backdrop:'static',
       backdropClass:'customBackdrop'
     }
   }
 
-  // dialog start ************************************
+  ngOnInit() {
+    let $this = this;
+    this.bookmarkTabStore = "bookmarkManager###"+this.selectedFolder;
+    this.store.get( this.bookmarkTabStore ).subscribe(storeBookmarks=>{
+      if(storeBookmarks){
+        $this.bookmarks = storeBookmarks;
+      }else{
+        this.store.set(this.bookmarkTabStore, []).subscribe(()=>{});
+      }
+    })
+  }
+
+  drop(event: CdkDragDrop<string[]>) {
+    moveItemInArray(this.bookmarks, event.previousIndex, event.currentIndex);
+    this.store.set(this.bookmarkTabStore, this.bookmarks ).subscribe(()=>{});
+  }
+
   open(content) {
     this.modalService.open(content, this.modalOptions).result.then((result) => {
-      this.closeResult = `Closed with: ${result}`;
-    }, (reason) => {
-      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+      //this.closeResult = `Closed with: ${result}`;
+    }, (error)=> {
+      this.bookmarkForm = {
+        bookmarkId: null,
+        label: "",
+        url: ""
+      }
     });
   }
- 
-  private getDismissReason(reason: any): string {
-    if (reason === ModalDismissReasons.ESC) {
-      return 'by pressing ESC';
-    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-      return 'by clicking on a backdrop';
-    } else {
-      return  `with: ${reason}`;
-    };
-
-  }
-
-  //dialog end ***********************************
-
 
   //create Or add-bookmark 
-  addBookmark(){
+  saveBookmark(modalRef){
 
-  }
+    if(modalRef) modalRef.close();
+    if(this.bookmarkForm.label && this.bookmarkForm.url){
 
+      if(this.bookmarkForm.bookmarkId){
 
-  //remove bookmark
-  onDelete(id: any) {
+        this.bookmarks = this.bookmarks.map(bookmark=> {
+          if(bookmark.bookmarkId == this.bookmarkForm.bookmarkId){
+            bookmark.name = this.bookmarkForm.label;
+            bookmark.url = this.bookmarkForm.url;
+          }
+          return bookmark;
+        })
 
+      }else{
+        this.bookmarks.push({
+          bookmarkId: Date.now(),
+          name: this.bookmarkForm.label,
+          url: this.bookmarkForm.url,
+          createdDate: new Date(),
+          modifiedDate: new Date(),
+          sortPosition: 0,
+          isFavourite: false
+        });
+        
+      }
+      this.store.set(this.bookmarkTabStore, this.bookmarks ).subscribe(()=>{});
+      
     }
 
-  //edit bookmark
-  onEdit(){
+    this.bookmarkForm = {
+      bookmarkId: null,
+      label: "",
+      url: ""
+    }
+  }
 
-  } 
+  //remove bookmark
+  onDelete(bookmark) {
+    this.bookmarks = this.bookmarks.filter(data => data.bookmarkId != bookmark.bookmarkId);
+    this.store.set(this.bookmarkTabStore, this.bookmarks ).subscribe(()=>{});
+  }
+
+  //edit bookmark
+  onEdit(bookmark){
+    this.bookmarkForm = {
+      bookmarkId: bookmark.bookmarkId,
+      label: bookmark.name,
+      url: bookmark.url
+    }
+    this.open(this.mymodalRef);
+  }
 
   //favorite Bookmark  
-  onFavourite(){
-    
+  onFavourite(bookmark){
+    this.bookmarks = this.bookmarks.map(data => {
+      if(data.bookmarkId == bookmark.bookmarkId) data.isFavourite = !data.isFavourite;
+      return data;
+    });
+    console.log(this.bookmarks)
+    this.store.set(this.bookmarkTabStore, this.bookmarks ).subscribe(()=>{});
   }
+
 }

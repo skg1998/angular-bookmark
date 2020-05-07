@@ -1,52 +1,57 @@
 <ng-template #mymodal let-modal>
   <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">Create Your BookMark</h4>
+    <h4 class="modal-title" id="modal-basic-title">Create Bookmark</h4>
     <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
-    <div class="modal-body input-group input-group-sm mb-3">
-      <div class="input-group-prepend">
-        <span class="input-group-text" id="inputGroup-sizing-sm">Username</span>
-      </div>
-      <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
-    </div>
   <div class="modal-body input-group input-group-sm mb-3">
-      <div class="input-group-prepend">
-        <span class="input-group-text" id="inputGroup-sizing-sm">BookMark URL</span>
-      </div>
-      <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+    <div class="input-group-prepend">
+      <span class="input-group-text" id="inputGroup-sizing-sm">Bookmark Label</span>
     </div>
+    <input type="text" class="form-control" [(ngModel)]="bookmarkForm.label">
+  </div>
+  <div class="modal-body input-group input-group-sm mb-3">
+    <div class="input-group-prepend">
+      <span class="input-group-text" id="inputGroup-sizing-sm" >BookMark URL &nbsp;</span>
+    </div>
+    <input type="text" class="form-control" [(ngModel)]="bookmarkForm.url">
+  </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Ok</button>
+    <button type="button" mat-raised-button class="btn btn-primary" (click)="saveBookmark(modal)">Ok</button>
   </div>
 </ng-template>
 
 
 <div class="container p-3">
-    <div class="row text-center m-0 header form-group">
-      <div class="col-md-2 mb-1 p-0 pr-1 ">
-        <button class="btn btn-sm btn-outline-primary"  (click)="open(mymodal)">Create</button>
-      </div>
-      <div class="col-md-10 mb-2 p-0">
-        <input type="text" class="form-control" placeholder="Search Here...." [(ngModel)]="term">
-      </div>
+  <div class="row text-center m-0 header form-group">
+    <div class="col-md-2 mb-1 p-0 pr-1 ">
+      <button class="btn btn-sm btn-outline-primary"  (click)="open(mymodal)">Create</button>
+    </div>
+    <div class="col-md-10 mb-2 p-0">
+      <input type="text" class="form-control" placeholder="Search Here...." [(ngModel)]="term">
+    </div>
   </div>
 
   <div cdkDropList class="card example-list" (cdkDropListDropped)="drop($event)">
-    <div class="card-body example-box" *ngFor="let data of allData[0] | filter:term" cdkDrag>
+    <div class="card-body example-box" *ngFor="let bookmark of bookmarks | filter:term" cdkDrag>
       <div class="row">
-        <div class="col-md-6 p-2">
-            <a href="{{url}}">{{data}}</a>
+        <div class="col-md-3 p-2">
+            <a href="{{bookmark.url}}">{{bookmark.name}}</a>
+        </div>
+        <div class="col-md-3 p-2">
+            <a href="{{bookmark.url}}">{{bookmark.createdDate}}</a>
         </div>
         <div class="col-md-6 p-0">
           <div class="our-button">
-                    <button  class="btn btn-sm btn-outline-info  mr-2" (click)="onEdit()" >Edit</button>
-                    <button class="btn btn-sm btn-outline-danger  mr-2" (click)="onDelete(bookmark.id)">Drop</button>
-                    <button class="btn btn-sm btn-outline-warning" (click)="onFavourite()">&#x2606;</button>
-            </div>
+            <button  class="btn btn-sm btn-outline-info  mr-2" (click)="onEdit(bookmark)" >Edit</button>
+            <button class="btn btn-sm btn-outline-danger  mr-2" (click)="onDelete(bookmark)">Delete</button>
+            <button class="btn btn-sm" [ngClass]=" bookmark.isFavourite ?'btn-warning':'btn-outline-warning'" (click)="onFavourite(bookmark)">
+              <span>&#x2606;</span>
+            </button>
+          </div>
         </div>
       </div>
-      </div>
     </div>
+  </div>
 </div>

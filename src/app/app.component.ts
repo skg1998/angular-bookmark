@@ -24,6 +24,7 @@ export class AppComponent  {
   addTab(selectAfterAdding: boolean) {
     let bookmarkName = prompt("Enter Folder Name");
     if(bookmarkName){
+      if( this.tabs.map(tab => tab.toLowerCase()).includes( bookmarkName.toLowerCase() ) ) return;
       this.tabs.push(bookmarkName);
       this.store.set("bookmarkFolders", this.tabs).subscribe(()=>{});
       if (selectAfterAdding) {
