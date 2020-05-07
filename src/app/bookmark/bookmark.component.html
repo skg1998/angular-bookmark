@@ -24,22 +24,29 @@
 
 
 <div class="container p-3">
-    <div class="row text-center header form-group">
-      <div class="col-md-3">
+    <div class="row text-center m-0 header form-group">
+      <div class="col-md-3 mb-1 p-0 pr-1 ">
         <button class="btn btn-sm btn-outline-primary"  (click)="open(mymodal)">Create</button>
       </div>
-      <div class="col-md-9">
+      <div class="col-md-9 mb-2 p-0">
         <input type="text" class="form-control" placeholder="Search Here...." [(ngModel)]="term">
       </div>
   </div>
 
   <div cdkDropList class="card example-list" (cdkDropListDropped)="drop($event)">
-    <div class="card-body example-box" *ngFor="let data of allData[0] | filter:term" cdkDrag><a href="{{url}}">{{data}}</a>
-      <div class="our-button">
-                <button  class="btn btn-sm btn-outline-info  mr-2" (click)="onEdit()" >Edit</button>
-                <button class="btn btn-sm btn-outline-danger  mr-2" (click)="onDelete(bookmark.id)">Delete</button>
-                <button class="btn btn-sm btn-outline-warning" (click)="onFavourite()">&#x2606;</button>
+    <div class="card-body example-box" *ngFor="let data of allData[0] | filter:term" cdkDrag>
+      <div class="row">
+        <div class="col-md-6 p-2">
+            <a href="{{url}}">{{data}}</a>
         </div>
+        <div class="col-md-6 p-0">
+          <div class="our-button">
+                    <button  class="btn btn-sm btn-outline-info  mr-2" (click)="onEdit()" >Edit</button>
+                    <button class="btn btn-sm btn-outline-danger  mr-2" (click)="onDelete(bookmark.id)">Drop</button>
+                    <button class="btn btn-sm btn-outline-warning" (click)="onFavourite()">&#x2606;</button>
+            </div>
+        </div>
+      </div>
       </div>
     </div>
 </div>
