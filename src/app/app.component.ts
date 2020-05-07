@@ -1,5 +1,6 @@
 import { Component ,Input} from '@angular/core';
 import {FormControl} from '@angular/forms';
+import { StorageMap } from '@ngx-pwa/local-storage';
 
 @Component({
   selector: 'my-app',
@@ -9,20 +10,30 @@ import {FormControl} from '@angular/forms';
 
 export class AppComponent  {
   
-  
-
-  tabs = ['Social-Media', 'Personal', 'Movies'];
+  tabs;
   selected = new FormControl(0);
 
-  addTab(selectAfterAdding: boolean) {
-    this.tabs.push('New');
+  constructor(private store: StorageMap){
+    let $this = this;
+    this.store.get("bookmarkFolders").subscribe(function(bookmarkFolders){
+      bookmarkFolders = bookmarkFolders || [];
+      $this.tabs = bookmarkFolders;
+    });
+  }
 
-    if (selectAfterAdding) {
-      this.selected.setValue(this.tabs.length - 1);
+  addTab(selectAfterAdding: boolean) {
+    let bookmarkName = prompt("Enter Folder Name");
+    if(bookmarkName){
+      this.tabs.push(bookmarkName);
+      this.store.set("bookmarkFolders", this.tabs).subscribe(()=>{});
+      if (selectAfterAdding) {
+        this.selected.setValue(this.tabs.length - 1);
+      }
     }
   }
 
   removeTab(index: number) {
     this.tabs.splice(index, 1);
+    this.store.set("bookmarkFolders", this.tabs).subscribe(()=>{});
   }
 }

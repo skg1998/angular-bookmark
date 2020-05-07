@@ -54,3 +54,14 @@
   color: #ddd;
   border-radius: 15px;
 }
+
+.add-folder-button{
+  margin-bottom: 15px;
+}
+.add-folder-button button{
+  border-radius: 0;
+}
+
+.delete-folder-button button{
+  border-radius: 0;
+}
