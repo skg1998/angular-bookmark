@@ -36,6 +36,7 @@ export class BookmarkComponent implements OnInit {
       backdrop:'static',
       backdropClass:'customBackdrop'
     }
+    this.getPicPreview('https://www.npmjs.com/');
   }
 
   ngOnInit() {
@@ -79,6 +80,7 @@ export class BookmarkComponent implements OnInit {
           if(bookmark.bookmarkId == this.bookmarkForm.bookmarkId){
             bookmark.name = this.bookmarkForm.label;
             bookmark.url = this.bookmarkForm.url;
+            bookmark.modifiedDate = new Date();
           }
           return bookmark;
         })
@@ -130,6 +132,25 @@ export class BookmarkComponent implements OnInit {
     });
     console.log(this.bookmarks)
     this.store.set(this.bookmarkTabStore, this.bookmarks ).subscribe(()=>{});
+  }
+
+  getPicPreview(url){
+    fetch('https://unfurl.io/api/preview?api_token=BUyGop2jrf75qT1f64Arau9dDXxDv6NCeACXSKQRpeVvjEe4Hw78oUdZFWkR&url='+url, {
+      method: 'get',
+      mode: 'cors',
+    })
+      .then((res) => res.json())
+      .then((response) => console.log(response));
+  }
+
+  sortBy(named){
+    this.bookmarks = this.bookmarks.sort((a,b)=>{
+
+      if(named=="created") return (a.createdDate - b.createdDate);
+      if(named=="modified") return (a.createdDate - b.createdDate);
+     //return  String(a.label).toLowerCase() - String(b.label).toLowerCase()
+    })
+    return false;
   }
 
 }
