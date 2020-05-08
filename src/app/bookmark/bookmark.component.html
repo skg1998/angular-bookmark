@@ -40,9 +40,9 @@
             <a href="{{bookmark.url}}">{{bookmark.name}}</a>
         </div>
         <div class="col-md-3 p-2">
-            <a href="{{bookmark.url}}">{{bookmark.createdDate}}</a>
+            <p>{{bookmark.createdDate | date:'fullDate'}}</p>
         </div>
-        <div class="col-md-6 p-0">
+        <div class="col-md-6 p-0 mt-2">
           <div class="our-button">
             <button  class="btn btn-sm btn-outline-info  mr-2" (click)="onEdit(bookmark)" >Edit</button>
             <button class="btn btn-sm btn-outline-danger  mr-2" (click)="onDelete(bookmark)">Delete</button>
