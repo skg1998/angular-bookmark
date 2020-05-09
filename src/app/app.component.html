@@ -20,7 +20,7 @@
             
             <mat-tab *ngFor="let tab of tabs; let index = index" [label]="tab">
               <div class="show-content m-3 delete-folder-button">
-               <!-- {{tab}} Bookmarks --> &nbsp;
+               <span>{{tab}} Bookmarks &nbsp;</span>
               <button mat-raised-button  class="example-delete-tab-button" [disabled]="tabs.length === 1" (click)="removeTab(index)">
                 Delete Folder
               </button>

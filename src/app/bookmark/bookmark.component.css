@@ -1,27 +1,23 @@
-p {
-  font-family: Lato;
-}
-
 .row{
   width:100%;
   margin: 0px;
 }
 
-  .our-button{
-    position: relative; 
-    display: flex;
-    float: right;
-  }
+.our-button{
+  position: relative; 
+  display: flex;
+  float: right;
+}
 
-  .our-button button{
-    margin: 0px;
-    padding: 5px 23px;
-  }
+.our-button button{
+  margin: 0px;
+  padding: 5px 23px;
+}
 
 
 /* drag drop */
 
- .example-list {
+.example-list {
   max-width: 100%;
   border: solid 1px #ccc;
   display: block;
@@ -81,3 +77,14 @@ a{
   height: 35px;
   margin: 0px;
 } 
+
+.our-button span{
+  color: red;
+}
+
+.orders-heading a span{
+  color: #dddddd96;
+}
+.orders-heading a.active span{
+  color: #000;
+}

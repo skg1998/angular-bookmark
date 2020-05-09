@@ -65,3 +65,10 @@
 .delete-folder-button button{
   border-radius: 0;
 }
+
+
+@media screen and (max-width: 400px) {
+  .delete-folder-button span {
+   visibility: hidden;
+  }
+}

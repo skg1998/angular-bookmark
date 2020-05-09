@@ -34,24 +34,36 @@
   </div>
 
   <div class="row m-0 header form-group">
-    <div class="card-body example-box">
+    <div class="card-body example-box orders-heading">
       <div class="col-md-3 p-2">
-        <a href="#" (click)="sortBy('name')">Label</a>
+        <a href="#" [class.active]="order === 'label'"
+            (click)="sortBy('label')">Label
+          <span [hidden]="reverse">▼</span>
+          <span [hidden]="!reverse">▲</span>
+        </a>
       </div>
       <div class="col-md-3 p-2">
-        <a href="#" (click)="sortBy('created')">Created Date</a>
+        <a href="#" [class.active]="order === 'created'"
+            (click)="sortBy('created')">Created Date
+          <span [hidden]="reverse">▼</span>
+          <span [hidden]="!reverse">▲</span>
+        </a>
       </div>
       <div class="col-md-3 p-2">
-        <a href="#" (click)="sortBy('modified')">Modified Date</a>
+        <a href="#" [class.active]="order === 'modified'"
+            (click)="sortBy('modified')">Modified Date
+          <span [hidden]="reverse">▼</span>
+          <span [hidden]="!reverse">▲</span>
+        </a>
       </div>
-      <div class="col-md-6 p-2">
+      <div class="col-md-3 p-2">
         Action
       </div>
     </div>
   </div>
 
   <div cdkDropList class="card example-list" (cdkDropListDropped)="drop($event)">
-    <div class="card-body example-box" *ngFor="let bookmark of bookmarks | filter:term" cdkDrag>
+    <div class="card-body example-box" *ngFor="let bookmark of bookmarks | filter:term " cdkDrag>
       <div class="row">
         <div class="col-md-3 p-2">
             <a href="{{bookmark.url}}">{{bookmark.name}}</a>
@@ -67,7 +79,7 @@
             <button  class="btn btn-sm btn-outline-info  mr-2" (click)="onEdit(bookmark)" >Edit</button>
             <button class="btn btn-sm btn-outline-danger  mr-2" (click)="onDelete(bookmark)">Delete</button>
             <button class="btn btn-sm" [ngClass]=" bookmark.isFavourite ?'btn-warning':'btn-outline-warning'" (click)="onFavourite(bookmark)">
-              <span>&#x2606;</span>
+              <span>&#10084;</span>
             </button>
           </div>
         </div>

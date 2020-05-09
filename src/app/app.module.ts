@@ -30,14 +30,5 @@ import { BookmarkComponent } from './bookmark/bookmark.component';
   providers: []
 })
 export class AppModule {
-    constructor(public matIconRegistry: MatIconRegistry) {
-        // matIconRegistry.registerFontClassAlias('fontawesome', 'fa');
-    }
-
-    static forRoot(): ModuleWithProviders {
-        return {
-            ngModule: MaterialModule,
-            providers: [MatIconRegistry]
-        }
-    }
+    
  }

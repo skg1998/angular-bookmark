@@ -33,7 +33,7 @@
  
             ],
             "scripts": [
-               "../node_modules/mdbootstrap/js/jquery-3.1.1.js",
+              "../node_modules/mdbootstrap/js/jquery-3.1.1.js",
               "../node_modules/mdbootstrap/js/tether.js",
               "../node_modules/mdbootstrap/js/bootstrap.js",
               "../node_modules/mdbootstrap/js/mdb.js",

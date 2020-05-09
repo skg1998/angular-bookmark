@@ -1,8 +1,7 @@
 import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
-import {NgbModal, ModalDismissReasons, NgbModalOptions} from '@ng-bootstrap/ng-bootstrap';
-import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
+import { NgbModal, ModalDismissReasons, NgbModalOptions} from '@ng-bootstrap/ng-bootstrap';
+import { CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
 import { StorageMap } from '@ngx-pwa/local-storage';
-import { MomentModule } from 'ngx-moment';
 
 @Component({
   selector: 'app-bookmark',
@@ -15,9 +14,11 @@ export class BookmarkComponent implements OnInit {
   @ViewChild('mymodal') mymodalRef: ElementRef;
 
   bookmarkTabStore:any = [];
-  title = 'ng-bootstrap-modal-demo';
   closeResult: string;
   modalOptions:NgbModalOptions;
+
+  order: string = '';
+  reverse: boolean = false;
   
   bookmarkForm = {
     bookmarkId: null,
@@ -134,22 +135,31 @@ export class BookmarkComponent implements OnInit {
     this.store.set(this.bookmarkTabStore, this.bookmarks ).subscribe(()=>{});
   }
 
+  //unfurl 
   getPicPreview(url){
     fetch('https://unfurl.io/api/preview?api_token=BUyGop2jrf75qT1f64Arau9dDXxDv6NCeACXSKQRpeVvjEe4Hw78oUdZFWkR&url='+url, {
+      headers : { 
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+       },
       method: 'get',
       mode: 'cors',
     })
       .then((res) => res.json())
       .then((response) => console.log(response));
   }
-
+  
+  //sorting by label, created-date , update-date
   sortBy(named){
+    this.order = named;
     this.bookmarks = this.bookmarks.sort((a,b)=>{
-
-      if(named=="created") return (a.createdDate - b.createdDate);
-      if(named=="modified") return (a.createdDate - b.createdDate);
-     //return  String(a.label).toLowerCase() - String(b.label).toLowerCase()
+      console.log(named);
+      console.log(this.reverse);
+      if(named=="created") return (this.reverse ? 1 : -1)*((a.createdDate - b.createdDate));
+      if(named=="modified") return (this.reverse ? 1 : -1)*(a.modifiedDate - b.modifiedDate);
+      if(named=="label") return (this.reverse ? 1 : -1)*( a.name.toLowerCase() > b.name.toLowerCase() ? 1 : -1);
     })
+    this.reverse = !this.reverse;
     return false;
   }
 
